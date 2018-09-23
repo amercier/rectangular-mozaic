@@ -11,6 +11,7 @@
     ],
     "scripts": {
         "lint": "phpcs --standard=PSR12 --extensions=php --ignore=./vendor .",
+        "test": "phpunit --bootstrap vendor/autoload.php tests",
         "post-install-cmd": "cghooks add --ignore-lock",
         "post-update-cmd": "cghooks update"
     },
@@ -22,6 +23,7 @@
     "require": {},
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.3",
-        "brainmaestro/composer-git-hooks": "^2.5"
+        "brainmaestro/composer-git-hooks": "^2.5",
+        "phpunit/phpunit": "^7.3"
     }
 }
