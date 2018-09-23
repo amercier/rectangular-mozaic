@@ -1,0 +1,13 @@
+{
+    "name": "amercier/rectangular-mozaic",
+    "description": "Rectangular mozaic generator library",
+    "type": "library",
+    "license": "ISC",
+    "authors": [
+        {
+            "name": "Alex Mercier",
+            "email": "pro.alexandre.mercier@gmail.com"
+        }
+    ],
+    "require": {}
+}
