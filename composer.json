@@ -10,8 +10,8 @@
         }
     ],
     "scripts": {
-        "lint": "phpcs --standard=PSR12 --extensions=php --ignore=./vendor .",
-        "test": "phpunit --bootstrap vendor/autoload.php tests",
+        "lint": "phpcs --standard=PSR12 --extensions=php --ignore=./coverage,./vendor .",
+        "test": "phpunit --bootstrap vendor/autoload.php --whitelist ./src --coverage-clover=coverage/clover.xml --coverage-html=coverage/ --coverage-text --colors=always tests",
         "post-install-cmd": "cghooks add --ignore-lock",
         "post-update-cmd": "cghooks update"
     },
