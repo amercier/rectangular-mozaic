@@ -1,0 +1,49 @@
+html {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    text-align: center;
+    min-height: 100%;
+}
+
+a {
+    display: block;
+    margin: 2rem auto 1rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+h1 {
+    font-weight: 100;
+}
+
+table {
+    border-spacing: 5px;
+    border-collapse: separate;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table:hover {
+    background-color: #fff176;
+}
+
+tr {
+    height: 3rem;
+}
+
+td {
+    background-color: #43a047;
+    min-width: 4rem;
+}
+
+td[colspan] {
+    background-color: #1976d2;
+    color: #fff;
+}
+
+td[rowspan] {
+    background-color: #d81b60;
+    color: #fff;
+}

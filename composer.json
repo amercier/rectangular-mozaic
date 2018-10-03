@@ -13,7 +13,11 @@
         "lint": "phpcs --standard=PSR12 --extensions=php --ignore=./coverage,./vendor .",
         "test": "phpunit --bootstrap vendor/autoload.php --whitelist ./src --coverage-clover=coverage/clover.xml --coverage-html=coverage/ --coverage-text --colors=always tests",
         "post-install-cmd": "cghooks add --ignore-lock",
-        "post-update-cmd": "cghooks update"
+        "post-update-cmd": "cghooks update",
+        "start": [
+            "echo Serving demo/ directory at http://localhost:8000/",
+            "php -S localhost:8000 -t demo/"
+        ]
     },
     "extra": {
         "hooks": {
@@ -37,5 +41,8 @@
         "psr-4": {
             "RectangularMozaic\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "process-timeout": 0
     }
 }
