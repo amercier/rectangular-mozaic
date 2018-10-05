@@ -16,8 +16,8 @@ class Generator
      * @var array
      */
     const DEFAULT_SETTINGS = [
-        'tallRate' => 0.33,
-        'wideRate' => 0.33,
+        'tallRate' => 0.25,
+        'wideRate' => 0.25,
         'maxFillRetries' => 100,
     ];
 
