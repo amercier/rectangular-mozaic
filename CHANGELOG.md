@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file. The format 
 [Unreleased]
 ------------
 
+(nothing)
+
+[v0.2.0] - 2018-10-05
+---------------------
+
 ### Added
 
 - Added changelog
@@ -28,4 +33,5 @@ v0.1.0 - 2018-10-04
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: (https://semver.org/spec/v2.0.0.html
 
-[Unreleased]: https://github.com/amercier/rectangular-mozaic/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/amercier/rectangular-mozaic/compare/v0.2.0...HEAD
+[v0.2.0]: https://github.com/amercier/rectangular-mozaic/compare/v0.1.0...v0.2.0
