@@ -50,4 +50,28 @@ class Tile extends Enum
         $this->width = $value === static::WIDE ? 2 : 1;
         $this->height = $value === static::TALL ? 2 : 1;
     }
+
+    /**
+     * Create the Tile corresponding to a cell.
+     *
+     * @param Cell? $cell A cell, or `null`.
+     * @return null If `null` is given.
+     * @return false If the `$cell` is `WIDE_LEFT` or `TALL_BOTTOM`, or
+     * @return Tile The Tile corresponding to the Cell value.
+     */
+    public static function fromCell($cell)
+    {
+        switch (Cell::toValue($cell)) {
+            case null:
+                return null;
+            case Cell::SMALL:
+                return self::SMALL();
+            case Cell::TALL_TOP:
+                return self::TALL();
+            case Cell::WIDE_LEFT:
+                return self::WIDE();
+            default:
+                return false;
+        }
+    }
 }

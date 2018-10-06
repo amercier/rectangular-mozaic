@@ -235,42 +235,70 @@ class Grid
     /**
      * Get a copy of the cells array.
      *
-     * @param function $copyRow A function that takes an array of cells and returns an array of the same length.
-     * @return mixed[][] A new two-dimensional array containing values.
+     * @param boolean $flatten Whether to flatten the two-dimensional array to one, or not.
+     * @param function? $cellToValue A function that takes an instance of Cell and return any value,
+     * or `false` to omit it from the flattened array. If `null` is given, returns the original value.
+     * @return mixed[] A one-dimensional of values, when `$flatten` is `true`, or
+     * @return mixed[][] A two-dimensional of values, when `$flatten` is `false`.
      */
-    protected function getCellsCopy($copyRow)
+    public function getData(bool $flatten = false, callable $cellToValue = null)
     {
         $copy = array();
-        for ($i = 0; $i < $this->rows; $i++) {
-            $copy[$i] = $copyRow($this->cells[$i]);
+        for ($row = 0; $row < $this->rows; $row++) {
+            if (!$flatten) {
+                $copy[$row] = array();
+            }
+            foreach ($this->cells[$row] as $cell) {
+                $value = $cellToValue ? $cellToValue($cell) : $cell;
+                if ($flatten && $value === false) {
+                    // skip
+                } elseif ($flatten) {
+                    $copy[] = $value;
+                } else {
+                    $copy[$row][] = $value;
+                }
+            }
         }
         return $copy;
     }
 
     /**
-     * Get a copy of the cells array.
+     * Get a copy of the grid cells.
      *
-     * @return Cell?[][] A new two-dimensional array containing cells.
+     * @param boolean $flatten Whether to flatten the two-dimensional array to one, or not.
+     * @param boolean $raw Whether to return Cell instances or cell values (int).
+     * @return int[] A one-dimensional of Cell values, when `$raw` is `false` and `$flatten` is `true`, or
+     * @return int[][] A two-dimensional of Cell values, when `$raw` is `false` and `$flatten` is `false`.
+     * @return Cell[] A one-dimensional of Cell instances, when `$raw` is `true` and `$flatten` is `true`, or
+     * @return Cell[][] A two-dimensional of Cell instances, when `$raw` is `true` and `$flatten` is `false`.
      */
-    public function getCells()
+    public function getCells(bool $flatten = false, bool $raw = false)
     {
-        return $this->getCellsCopy(function ($row) {
-            return array_slice($row, 0);
+        return $this->getData($flatten, $raw ? null : function ($cell) {
+            return Cell::toValue($cell);
         });
     }
 
     /**
-     * Get a two-dimensional array containing cell values.
+     * Get a copy of the grid cells as an array of tiles.
      *
-     * @return int?[][] A new two-dimensional array containing cell values.
+     * @param boolean $flatten Whether to flatten the two-dimensional array to one, or not.
+     * @param boolean $raw Whether to return Tile instances or tile values (int).
+     * @return int[] A one-dimensional of Tile values, when `$raw` is `false` and `$flatten` is `true`, or
+     * @return int[][] A two-dimensional of Tile values, when `$raw` is `false` and `$flatten` is `false`.
+     * @return Tile[] A one-dimensional of Tile instances, when `$raw` is `true` and `$flatten` is `true`, or
+     * @return Tile[][] A two-dimensional of Tile instances, when `$raw` is `true` and `$flatten` is `false`.
      */
-    public function getValues()
+    public function getTiles(bool $flatten = false, bool $raw = false)
     {
-        return $this->getCellsCopy(function ($row) {
-            $nullableCellToInt = function ($cell) {
-                return $cell === null ? null : $cell->getValue();
-            };
-            return array_map($nullableCellToInt, $row);
-        });
+        return $this->getData(
+            $flatten,
+            $raw
+                ? function ($cell) {
+                    return Tile::fromCell($cell);
+                } : function ($cell) {
+                    return Cell::toValue(Tile::fromCell($cell));
+                }
+        );
     }
 }

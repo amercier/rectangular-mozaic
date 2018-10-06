@@ -245,53 +245,153 @@ class GridTest extends TestCase
         $this->assertEquals('3x5 [1,2,3]', "{$grid}");
     }
 
-    public function testGetCellsReturnsAllCells()
-    {
-        $grid = new Grid(2, 3);
-        $grid->set(0, 0, Tile::TALL());
-        $grid->set(0, 1, Tile::WIDE());
-        $grid->set(1, 2, Tile::SMALL());
-
-        $cells = $grid->getCells();
-        $this->assertEquals(Cell::TALL_TOP(), $cells[0][0]);
-        $this->assertEquals(Cell::TALL_BOTTOM(), $cells[1][0]);
-        $this->assertEquals(Cell::WIDE_LEFT(), $cells[0][1]);
-        $this->assertEquals(Cell::WIDE_RIGHT(), $cells[0][2]);
-        $this->assertEquals(null, $cells[1][1]);
-        $this->assertEquals(Cell::SMALL(), $cells[1][2]);
-    }
-
     public function testGetCellsDoesNotReturnTheOriginalArray()
     {
         $grid = new Grid(2, 3);
         $grid->set(1, 2, Tile::SMALL());
-        $cells = $grid->getCells();
+
+        $cells = $grid->getCells(false, true);
         $cells[1][2] = null;
         $this->assertEquals(Cell::SMALL(), $grid->get(1, 2));
     }
 
-    public function testGetValuesReturnsAllCellValues()
+    public function testGetCellsReturnsTwoDimensionalArrayOfValues()
     {
         $grid = new Grid(2, 3);
         $grid->set(0, 0, Tile::TALL());
         $grid->set(0, 1, Tile::WIDE());
         $grid->set(1, 2, Tile::SMALL());
 
-        $cells = $grid->getValues();
-        $this->assertEquals(Cell::TALL_TOP, $cells[0][0]);
-        $this->assertEquals(Cell::TALL_BOTTOM, $cells[1][0]);
-        $this->assertEquals(Cell::WIDE_LEFT, $cells[0][1]);
-        $this->assertEquals(Cell::WIDE_RIGHT, $cells[0][2]);
-        $this->assertEquals(null, $cells[1][1]);
-        $this->assertEquals(Cell::SMALL, $cells[1][2]);
+        $values = $grid->getCells();
+        $this->assertSame(count($values), 2);
+        $this->assertSame(count($values[0]), 3);
+        $this->assertSame(count($values[1]), 3);
+        $this->assertSame(Cell::TALL_TOP, $values[0][0]);
+        $this->assertSame(Cell::WIDE_LEFT, $values[0][1]);
+        $this->assertSame(Cell::WIDE_RIGHT, $values[0][2]);
+        $this->assertSame(Cell::TALL_BOTTOM, $values[1][0]);
+        $this->assertSame(null, $values[1][1]);
+        $this->assertSame(Cell::SMALL, $values[1][2]);
     }
 
-    public function testGetValuesDoesNotReturnTheOriginalArray()
+    public function testGetCellsReturnsOneDimensionalArrayOfValues()
     {
         $grid = new Grid(2, 3);
+        $grid->set(0, 0, Tile::TALL());
+        $grid->set(0, 1, Tile::WIDE());
         $grid->set(1, 2, Tile::SMALL());
-        $cells = $grid->getValues();
-        $cells[1][2] = null;
-        $this->assertEquals(Cell::SMALL(), $grid->get(1, 2));
+
+        $values = $grid->getCells(true);
+        $this->assertSame(count($values), 2 * 3);
+        $this->assertSame(Cell::TALL_TOP, $values[0]);
+        $this->assertSame(Cell::WIDE_LEFT, $values[1]);
+        $this->assertSame(Cell::WIDE_RIGHT, $values[2]);
+        $this->assertSame(Cell::TALL_BOTTOM, $values[3]);
+        $this->assertSame(null, $values[4]);
+        $this->assertSame(Cell::SMALL, $values[5]);
+    }
+
+    public function testGetCellsReturnsTwoDimensionalArrayOfCells()
+    {
+        $grid = new Grid(2, 3);
+        $grid->set(0, 0, Tile::TALL());
+        $grid->set(0, 1, Tile::WIDE());
+        $grid->set(1, 2, Tile::SMALL());
+
+        $cells = $grid->getCells(false, true);
+        $this->assertSame(count($cells), 2);
+        $this->assertSame(count($cells[0]), 3);
+        $this->assertSame(count($cells[1]), 3);
+        $this->assertEquals(Cell::TALL_TOP(), $cells[0][0]);
+        $this->assertEquals(Cell::WIDE_LEFT(), $cells[0][1]);
+        $this->assertEquals(Cell::WIDE_RIGHT(), $cells[0][2]);
+        $this->assertEquals(Cell::TALL_BOTTOM(), $cells[1][0]);
+        $this->assertEquals(null, $cells[1][1]);
+        $this->assertEquals(Cell::SMALL(), $cells[1][2]);
+    }
+
+    public function testGetCellsReturnsOneDimensionalArrayOfCells()
+    {
+        $grid = new Grid(2, 3);
+        $grid->set(0, 0, Tile::TALL());
+        $grid->set(0, 1, Tile::WIDE());
+        $grid->set(1, 2, Tile::SMALL());
+
+        $cells = $grid->getCells(true, true);
+        $this->assertSame(count($cells), 2 * 3);
+        $this->assertEquals(Cell::TALL_TOP(), $cells[0]);
+        $this->assertEquals(Cell::WIDE_LEFT(), $cells[1]);
+        $this->assertEquals(Cell::WIDE_RIGHT(), $cells[2]);
+        $this->assertEquals(Cell::TALL_BOTTOM(), $cells[3]);
+        $this->assertEquals(null, $cells[4]);
+        $this->assertEquals(Cell::SMALL(), $cells[5]);
+    }
+
+    public function testGetTilesReturnsTwoDimensionalArrayOfValues()
+    {
+        $grid = new Grid(2, 3);
+        $grid->set(0, 0, Tile::TALL());
+        $grid->set(0, 1, Tile::WIDE());
+        $grid->set(1, 2, Tile::SMALL());
+
+        $values = $grid->getTiles();
+        $this->assertSame(count($values), 2);
+        $this->assertSame(count($values[0]), 3);
+        $this->assertSame(count($values[1]), 3);
+        $this->assertSame(Tile::TALL, $values[0][0]);
+        $this->assertSame(Tile::WIDE, $values[0][1]);
+        $this->assertSame(false, $values[0][2]);
+        $this->assertSame(false, $values[1][0]);
+        $this->assertSame(null, $values[1][1]);
+        $this->assertSame(Tile::SMALL, $values[1][2]);
+    }
+
+    public function testGetTilesReturnsOneDimensionalArrayOfValues()
+    {
+        $grid = new Grid(2, 3);
+        $grid->set(0, 0, Tile::TALL());
+        $grid->set(0, 1, Tile::WIDE());
+        $grid->set(1, 2, Tile::SMALL());
+
+        $values = $grid->getTiles(true);
+        $this->assertSame(count($values), 4);
+        $this->assertSame(Tile::TALL, $values[0]);
+        $this->assertSame(Tile::WIDE, $values[1]);
+        $this->assertSame(null, $values[2]);
+        $this->assertSame(Tile::SMALL, $values[3]);
+    }
+
+    public function testGetTilesReturnsTwoDimensionalArrayOfTiles()
+    {
+        $grid = new Grid(2, 3);
+        $grid->set(0, 0, Tile::TALL());
+        $grid->set(0, 1, Tile::WIDE());
+        $grid->set(1, 2, Tile::SMALL());
+
+        $tiles = $grid->getTiles(false, true);
+        $this->assertSame(count($tiles), 2);
+        $this->assertSame(count($tiles[0]), 3);
+        $this->assertSame(count($tiles[1]), 3);
+        $this->assertEquals(Tile::TALL(), $tiles[0][0]);
+        $this->assertEquals(Tile::WIDE(), $tiles[0][1]);
+        $this->assertSame(false, $tiles[0][2]);
+        $this->assertSame(false, $tiles[1][0]);
+        $this->assertSame(null, $tiles[1][1]);
+        $this->assertEquals(Tile::SMALL(), $tiles[1][2]);
+    }
+
+    public function testGetTilesReturnsOneDimensionalArrayOfTiles()
+    {
+        $grid = new Grid(2, 3);
+        $grid->set(0, 0, Tile::TALL());
+        $grid->set(0, 1, Tile::WIDE());
+        $grid->set(1, 2, Tile::SMALL());
+
+        $tiles = $grid->getTiles(true, true);
+        $this->assertSame(count($tiles), 4);
+        $this->assertEquals(Tile::TALL(), $tiles[0]);
+        $this->assertEquals(Tile::WIDE(), $tiles[1]);
+        $this->assertSame(null, $tiles[2]);
+        $this->assertEquals(Tile::SMALL(), $tiles[3]);
     }
 }

@@ -60,7 +60,7 @@ $grid = Mozaic::generate($tilesNumber, $columns);
 
 echo '<table>';
 $i = 1;
-foreach ($grid->getValues() as $row) {
+foreach ($grid->getCells() as $row) {
     echo '<tr>';
     foreach ($row as $cell) {
         switch ($cell) {
