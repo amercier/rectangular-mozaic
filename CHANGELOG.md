@@ -7,7 +7,9 @@ All notable changes to this project will be documented in this file. The format 
 [Unreleased]
 ------------
 
-(nothing)
+### Changed
+
+- New `Grid` API: merged `getValues()` into `getCells()`, added `getTiles()`. Both can return a flattened array.
 
 [v0.2.0] - 2018-10-05
 ---------------------
