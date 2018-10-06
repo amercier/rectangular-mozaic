@@ -24,7 +24,24 @@ class EnumTest extends TestCase
 
     public function testToStringReturnsConstantName()
     {
-        $this->assertEquals(((string)Letters::A()), 'A');
-        $this->assertEquals(((string)Letters::B()), 'B');
+        $this->assertSame(((string)Letters::A()), 'A');
+        $this->assertSame(((string)Letters::B()), 'B');
+    }
+
+    public function testToValueReturnsNullWhenNullIsGiven()
+    {
+        $this->assertSame(null, Letters::toValue(null));
+    }
+
+    public function testToValueReturnsValueWhenBoolIsGiven()
+    {
+        $this->assertSame(true, Letters::toValue(true));
+        $this->assertSame(false, Letters::toValue(false));
+    }
+
+    public function testToValueReturnsValueWhenEnumIsGiven()
+    {
+        $this->assertSame(Letters::A, Letters::toValue(Letters::A()));
+        $this->assertSame(Letters::B, Letters::toValue(Letters::B()));
     }
 }

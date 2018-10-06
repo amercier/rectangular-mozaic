@@ -24,4 +24,16 @@ abstract class Enum extends EnumBase
     {
         return $this->getKey();
     }
+
+    /**
+     * Get the value from a mixed value.
+     *
+     * @param mixed $value Enum instance, or anything else.
+     * @return int The enum value if `$value` is an instance of Enum, or
+     * @return mixed The given value unchanged, otherwise.
+     */
+    public static function toValue($value)
+    {
+        return $value instanceof Enum ? $value->getValue() : $value;
+    }
 }
