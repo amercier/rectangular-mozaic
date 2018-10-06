@@ -17,33 +17,33 @@ class Cell extends Enum
      *
      * @var integer
      */
-    const SMALL = 0;
+    const SMALL = 1;
 
     /**
      * Top cell of a 2-cell-wide tile (1x2) tile.
      *
      * @var integer
      */
-    const TALL_TOP = 1;
+    const TALL_TOP = 2;
 
     /**
      * Bottom cell of a 2-cell-wide tile (1x2) tile.
      *
      * @var integer
      */
-    const TALL_BOTTOM = 2;
+    const TALL_BOTTOM = 3;
 
     /**
      * Left cell of a 2-cell-wide (2x1) tile.
      *
      * @var integer
      */
-    const WIDE_LEFT = 3;
+    const WIDE_LEFT = 4;
 
     /**
      * Right cell of a 2-cell-wide (2x1) tile.
      *
      * @var integer
      */
-    const WIDE_RIGHT = 4;
+    const WIDE_RIGHT = 5;
 }
